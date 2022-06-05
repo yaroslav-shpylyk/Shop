@@ -1,6 +1,7 @@
 import express from 'express';
 
 const app = express();
+const port = process.env.PORT || 8080;
 
 app.use(express.json());
 
@@ -15,4 +16,4 @@ app.get('/items', (request, response) => {
   ]);
 });
 
-app.listen(8080, () => console.log('Started'));
+app.listen(port, () => console.log(`Started on port: ${port}`));
