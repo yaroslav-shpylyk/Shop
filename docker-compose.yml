@@ -1,0 +1,28 @@
+version: "1.0"
+networks:
+  shop-network:
+    driver: bridge
+volumes:
+  client-volume:
+services:
+  client:
+    build: ./client
+    volumes:
+      - client-volume:/usr/src/client/dist
+    networks:
+      - shop-network
+  server:
+    build: ./server
+    networks:
+      - shop-network
+  nginx:
+    build: ./nginx
+    volumes:
+      - client-volume:/usr/share/nginx/html
+    depends_on:
+      - client
+      - server
+    networks:
+      - shop-network
+    ports:
+      - 80:80
