@@ -13,8 +13,18 @@ services:
       - shop-network
   server:
     build: ./server
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=$PG_USER
+      - POSTGRES_PASSWORD=$PG_PASSWORD
+      - POSTGRES_DB=$PG_DB
+      - POSTGRES_PORT=$PG_PORT
+      - WAIT_HOSTS=postgres:$PG_PORT
     networks:
       - shop-network
+    depends_on:
+      - postgres
   nginx:
     build: ./nginx
     volumes:
@@ -26,3 +36,17 @@ services:
       - shop-network
     ports:
       - 80:80
+  postgres:
+    image: postgres
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=$PG_USER
+      - POSTGRES_PASSWORD=$PG_PASSWORD
+      - POSTGRES_DB=$PG_DB
+      - POSTGRES_PORT=$PG_PORT
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d
+    networks:
+      - shop-network

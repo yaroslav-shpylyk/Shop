@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS objects (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(64),
+    type VARCHAR(32)
+);

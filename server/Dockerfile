@@ -3,7 +3,9 @@ WORKDIR /usr/src/server
 COPY . .
 RUN npm install
 RUN npm run build
-WORKDIR /usr/src/server/dist
+
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait /wait
+RUN chmod +x /wait
 
 EXPOSE 8080
-CMD ["node", "server.js"]
+CMD /wait && node ./dist/server.js
