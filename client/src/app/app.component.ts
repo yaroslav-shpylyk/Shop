@@ -11,6 +11,6 @@ export class AppComponent {
   constructor(private httpClient: HttpClient) {}
 
   getItems() : void {
-    this.httpClient.get('http://localhost:80/api/items').subscribe();
+    this.httpClient.get('http://localhost:80/api/objects').subscribe();
   }
 }
