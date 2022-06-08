@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
   public message$ = new BehaviorSubject<string>('');
   public isLoading: boolean;
   public isAddViewSelected = true;
+  private messageTimer: ReturnType<typeof setTimeout>;
 
   constructor(private AppService: AppService) {}
 
@@ -93,7 +94,8 @@ export class AppComponent implements OnInit {
   }
 
   private setNewMessage(message: string): void {
+    clearTimeout(this.messageTimer);
     this.message$.next(message);
-    setTimeout(() => this.message$.next(''), 3000);
+    this.messageTimer = setTimeout(() => this.message$.next(''), 3000);
   }
 }
