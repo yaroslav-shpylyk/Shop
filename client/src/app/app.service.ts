@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { IAnimal } from './interfaces/object.interface';
+import { IAnimal } from './interfaces/animal.interface';
 
 @Injectable()
 export class AppService {

@@ -1,4 +1,4 @@
-import express from 'express';
+import express, {Request, Response} from 'express';
 import pool from './connector';
 import bodyParser from 'body-parser';
 
@@ -12,7 +12,7 @@ pool.connect()
 app.use(express.json());
 app.use(bodyParser.json());
 
-app.post('/animal', async (req, res) => {
+app.post('/animal', async (req: Request, res: Response): Promise<void> => {
   const client = await pool.connect();
   const {name, type} = req.body;
   try {
@@ -25,7 +25,7 @@ app.post('/animal', async (req, res) => {
   }
 })
 
-app.delete('/animal/:name', async (req, res) => {
+app.delete('/animal/:name', async (req: Request, res: Response): Promise<void> => {
   const client = await pool.connect();
   try {
     await client.query('DELETE FROM animals WHERE name=$1', [req.params.name]);
@@ -37,7 +37,7 @@ app.delete('/animal/:name', async (req, res) => {
   }
 })
 
-app.get('/animals', async (req, res) => {
+app.get('/animals', async (req: Request, res: Response): Promise<void> => {
   const client = await pool.connect();
   try {
     const items = await client.query('SELECT * FROM animals');

@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
-import {BehaviorSubject, debounceTime, finalize, switchMap} from 'rxjs';
+import { BehaviorSubject, debounceTime, finalize, switchMap } from 'rxjs';
 
-import { IAnimal } from './interfaces/object.interface';
+import { IAnimal } from './interfaces/animal.interface';
 import { AppService } from './app.service';
+import { Store } from '@ngrx/store';
+import { animalsSelector } from './store/selectors/animals.selector';
+import { getAnimals } from './store/actions/animals.action';
 
 @Component({
   selector: 'app-root',
@@ -13,15 +16,19 @@ import { AppService } from './app.service';
 export class AppComponent implements OnInit {
   public nameModel: string;
   public typeModel: string;
-  public animals: IAnimal[] = [];
+  public animals$ = this.store.select<IAnimal[]>(animalsSelector);
   public message$ = new BehaviorSubject<string>('');
   public isLoading: boolean;
   public isAddViewSelected = true;
   private messageTimer: ReturnType<typeof setTimeout>;
 
-  constructor(private AppService: AppService) {}
+  constructor(
+    private AppService: AppService,
+    private store: Store
+  ) {}
 
   ngOnInit() {
+    this.store.dispatch(getAnimals());
     this.isLoading = true;
     this.AppService.getAnimals()
       .pipe(
@@ -86,11 +93,11 @@ export class AppComponent implements OnInit {
   }
 
   private assignAnimals(animals: IAnimal[]): void {
-    this.animals = animals;
+    //this.animals = animals;
   }
 
   private checkNameExistence(name: string): boolean {
-    return this.animals.some(animal => animal.name === name);
+    return true;
   }
 
   private setNewMessage(message: string): void {

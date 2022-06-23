@@ -23,7 +23,7 @@
     <th>Name</th>
     <th>Type</th>
   </tr>
-  <tr *ngFor="let animal of animals">
+  <tr *ngFor="let animal of animals$ | async">
     <td>{{animal.name}}</td>
     <td>{{animal.type}}</td>
   </tr>
