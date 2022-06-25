@@ -27,10 +27,10 @@ app.post('/animal', async (req: Request, res: Response): Promise<void> => {
   }
 })
 
-app.delete('/animal/:name', async (req: Request, res: Response): Promise<void> => {
+app.delete('/animal/:id', async (req: Request, res: Response): Promise<void> => {
   const client = await pool.connect();
   try {
-    await client.query('DELETE FROM animals WHERE name=$1', [req.params.name]);
+    await client.query('DELETE FROM animals WHERE id=$1', [req.params.id]);
     res.status(204).send();
   } catch {
     res.status(404).send();
