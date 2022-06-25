@@ -1,0 +1,10 @@
+<table>
+  <tr>
+    <th>{{columnNames.name}}</th>
+    <th>{{columnNames.type}}</th>
+  </tr>
+  <tr *ngFor="let animal of animals$ | async">
+    <td>{{animal.name}}</td>
+    <td>{{animal.type}}</td>
+  </tr>
+</table>

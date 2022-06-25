@@ -1,0 +1,19 @@
+<div class="control-panel">
+  <div *ngIf="isLoading" class="disable-panel">
+    <div class="loader"></div>
+  </div>
+  <div class="message">{{message$ | async}}</div>
+  <ul class="change-view-panel">
+    <li [class.add-selected]="isAddViewSelected" (click)="changeView(true)">Add</li>
+    <li [class.delete-selected]="!isAddViewSelected" (click)="changeView(false)">Delete</li>
+  </ul>
+  <div class="change-data-panel">
+    <ul class="change-data-inputs">
+      <li><label>Name:</label></li>
+      <li><input [(ngModel)]="nameModel" ngDefaultControl></li>
+      <li *ngIf="isAddViewSelected"><label>Type:</label></li>
+      <li *ngIf="isAddViewSelected"><input [(ngModel)]="typeModel" ngDefaultControl></li>
+    </ul>
+    <button (click)="isAddViewSelected ? addObject(nameModel, typeModel) : deleteObject(nameModel)">Proceed</button>
+  </div>
+</div>

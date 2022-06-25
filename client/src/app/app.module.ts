@@ -4,15 +4,21 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AppService } from './app.service';
+import { AnimalsService } from './services/animals.service';
 import { animalsReducer } from './store/reducers/animals.reducer';
+import { AnimalsEffect } from './store/effects/animals.effect';
+import { AnimalsTableComponent } from './components/animals-table/animals-table.component';
+import { ActionsPanelComponent } from './components/actions-panel/actions-panel.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AnimalsTableComponent,
+    ActionsPanelComponent
   ],
   imports: [
     BrowserModule,
@@ -21,9 +27,12 @@ import { animalsReducer } from './store/reducers/animals.reducer';
     FormsModule,
     StoreModule.forRoot({
       animals: animalsReducer
-    })
+    }),
+    EffectsModule.forRoot([
+      AnimalsEffect
+    ])
   ],
-  providers: [AppService],
+  providers: [AnimalsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
