@@ -13,6 +13,7 @@ import { animalsReducer } from './store/reducers/animals.reducer';
 import { AnimalsEffect } from './store/effects/animals.effect';
 import { AnimalsTableComponent } from './components/animals-table/animals-table.component';
 import { ActionsPanelComponent } from './components/actions-panel/actions-panel.component';
+import { AnimalService } from './services/animal.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,10 @@ import { ActionsPanelComponent } from './components/actions-panel/actions-panel.
       AnimalsEffect
     ])
   ],
-  providers: [AnimalsService],
+  providers: [
+    AnimalService,
+    AnimalsService
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

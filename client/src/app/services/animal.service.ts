@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class AnimalService {
   private url = 'http://localhost:80/api';
+
   constructor(private httpClient: HttpClient) {}
 
   public addAnimal(name: string, type: string): Observable<void> {
