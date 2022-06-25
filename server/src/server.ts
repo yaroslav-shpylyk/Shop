@@ -1,6 +1,7 @@
 import express, {Request, Response} from 'express';
 import pool from './connector';
 import bodyParser from 'body-parser';
+const cors = require('cors');
 
 const app = express();
 const port = 8080;
@@ -11,6 +12,7 @@ pool.connect()
 
 app.use(express.json());
 app.use(bodyParser.json());
+app.use(cors());
 
 app.post('/animal', async (req: Request, res: Response): Promise<void> => {
   const client = await pool.connect();
