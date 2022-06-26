@@ -14,6 +14,7 @@ import { AnimalsEffect } from './store/effects/animals.effect';
 import { AnimalsTableComponent } from './components/animals-table/animals-table.component';
 import { ActionsPanelComponent } from './components/actions-panel/actions-panel.component';
 import { AnimalService } from './services/animal.service';
+import { AnimalEffect } from './store/effects/animal.effect';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { AnimalService } from './services/animal.service';
       animals: animalsReducer
     }),
     EffectsModule.forRoot([
+      AnimalEffect,
       AnimalsEffect
     ])
   ],
