@@ -22,11 +22,17 @@
   display: flex;
   justify-content: space-around;
 
-  button {
-    height: 40px;
-    min-width: 150px;
-    margin-top: 15px;
-    font-size: 18px;
+  .change-data-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    button {
+      height: 40px;
+      min-width: 150px;
+      font-size: 18px;
+    }
   }
 
   .change-data-inputs {
@@ -35,6 +41,12 @@
     display: flex;
     flex-direction: column;
     margin: 0 20px 0 0;
+
+    .error-message {
+      font-size: 14px;
+      color: #da2828;
+      min-height: 20px;
+    }
 
     li {
       display: block;

@@ -12,7 +12,7 @@ import { AnimalsService } from './services/animals.service';
 import { animalsReducer } from './store/reducers/animals.reducer';
 import { AnimalsEffect } from './store/effects/animals.effect';
 import { AnimalsTableComponent } from './components/animals-table/animals-table.component';
-import { ActionsPanelComponent } from './components/actions-panel/actions-panel.component';
+import { AddPanelComponent } from './components/actions-panel/add-panel.component';
 import { AnimalService } from './services/animal.service';
 import { AnimalEffect } from './store/effects/animal.effect';
 
@@ -20,7 +20,7 @@ import { AnimalEffect } from './store/effects/animal.effect';
   declarations: [
     AppComponent,
     AnimalsTableComponent,
-    ActionsPanelComponent
+    AddPanelComponent
   ],
   imports: [
     BrowserModule,
