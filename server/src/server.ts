@@ -18,8 +18,13 @@ app.post('/animal', async (req: Request, res: Response): Promise<void> => {
   const client = await pool.connect();
   const {name, type} = req.body;
   try {
-    await client.query('INSERT INTO animals (name, type) VALUES ($1, $2)', [name, type]);
-    res.status(201).send();
+    const items = await client.query('INSERT INTO animals (name, type) VALUES ($1, $2) RETURNING id, name, type', [name, type]);
+
+    if (items.rows.length === 1) {
+      res.status(201).json(items.rows[0]);
+    } else {
+      throw new Error('');
+    }
   } catch {
     res.status(404).send();
   } finally {
