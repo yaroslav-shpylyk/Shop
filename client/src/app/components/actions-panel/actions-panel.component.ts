@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { BehaviorSubject, debounceTime, finalize, Subject, switchMap, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import * as animalsActions from '../../store/actions/animals.action';
-import { IAnimal } from '../../interfaces/animal.interface';
+import * as animalActions from '../../store/actions/animal.action';
 import { AnimalService } from '../../services/animal.service';
 import { AnimalsService } from '../../services/animals.service';
 
@@ -20,7 +20,6 @@ export class ActionsPanelComponent implements OnInit, OnDestroy {
   public typeModel: string;
   public message$ = new BehaviorSubject<string>('');
   public isLoading: boolean;
-  public isAddViewSelected = true;
 
   private messageTimer: ReturnType<typeof setTimeout>;
   private destroy$ = new Subject<void>();
@@ -57,52 +56,11 @@ export class ActionsPanelComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.isLoading = true;
-    this.animalService.addAnimal(name, type)
-      .pipe(
-        switchMap(() => this.animalsService.getAnimals()),
-        debounceTime(1000),
-        finalize(() => this.isLoading = false)
-      )
-      .subscribe(animals => {
-        this.assignAnimals(animals);
-        this.setNewMessage(`Animal with name ${name} and ${type} has been created`);
-      });
-  }
-
-  public deleteObject(name: string): void {
-    if(!name) {
-      this.setNewMessage('Name is empty');
-      return;
-    } else if(!this.checkNameExistence(name)) {
-      this.setNewMessage('Name does not exist in list');
-      return;
-    }
-
-    this.animalService.deleteAnimal(name)
-      .pipe(
-        switchMap(() => this.animalsService.getAnimals()),
-        debounceTime(1000),
-        finalize(() => this.isLoading = false)
-      )
-      .subscribe(animals => {
-        this.assignAnimals(animals);
-        this.setNewMessage(`Animal with name ${name} has been deleted`);
-      });
-  }
-
-  public changeView(isAddViewSelected: boolean): void {
-    this.isAddViewSelected = isAddViewSelected;
-    this.nameModel = '';
-    this.typeModel = '';
-  }
-
-  private assignAnimals(animals: IAnimal[]): void {
-    //this.animals = animals;
+    this.store.dispatch(animalActions.createAnimal({payload: {name, type}}))
   }
 
   private checkNameExistence(name: string): boolean {
-    return true;
+    return false;
   }
 
   private setNewMessage(message: string): void {

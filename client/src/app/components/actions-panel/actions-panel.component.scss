@@ -18,37 +18,6 @@
   }
 }
 
-.change-view-panel {
-  display: flex;
-  list-style: none;
-  margin: 0 0 10px 0;
-  padding: 0;
-
-  li {
-    display: flex;
-    justify-content: center;
-    border: 1px solid black;
-    border-radius: 5px;
-    width: 70px;
-
-    &:not(:first-child) {
-      margin-left: 5px;
-    }
-
-    &:hover {
-      cursor: pointer;
-    }
-  }
-
-  .add-selected {
-    background-color: #4cd04c;
-  }
-
-  .delete-selected {
-    background-color: #ea5b5b;
-  }
-}
-
 .change-data-panel {
   display: flex;
   justify-content: space-around;
