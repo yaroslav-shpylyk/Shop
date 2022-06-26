@@ -11,3 +11,33 @@ table, th, td {
 th, td {
   padding: 5px;
 }
+
+.actions {
+  &-header {
+    width: 70px;
+  }
+
+  &-cell {
+    text-align: center;
+
+    .delete-icon {
+      font-size: 23px;
+      color: #d02c2c;
+      cursor: pointer;
+    }
+
+    .edit-icon {
+      padding-top: 3px;
+      font-size: 17px;
+      color: #d5d568;
+      cursor: pointer;
+    }
+
+    .save-icon {
+      font-size: 20px;
+      padding-top: 2px;
+      color: #24d924;
+      cursor: pointer;
+    }
+  }
+}

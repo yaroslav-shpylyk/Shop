@@ -2,9 +2,15 @@
   <tr>
     <th>{{columnNames.name}}</th>
     <th>{{columnNames.type}}</th>
+    <th class="actions-header">{{columnNames.actions}}</th>
   </tr>
   <tr *ngFor="let animal of animals$ | async">
     <td>{{animal.name}}</td>
     <td>{{animal.type}}</td>
+    <td class="actions-cell">
+      <i class="fa-solid fa-pencil edit-icon"></i>
+      <i class="fa-solid fa-check save-icon"></i>
+      <i class="fa-solid fa-xmark delete-icon" (click)="deleteItem(animal.id)"></i>
+    </td>
   </tr>
 </table>
