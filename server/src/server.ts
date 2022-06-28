@@ -1,4 +1,4 @@
-import express, {Request, Response} from 'express';
+import express, { Request, Response } from 'express';
 import pool from './connector';
 import bodyParser from 'body-parser';
 const cors = require('cors');
@@ -14,7 +14,31 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors());
 
-app.post('/animal', async (req: Request, res: Response): Promise<void> => {
+app.get('/animals', async (req: Request, res: Response): Promise<void> => {
+  const client = await pool.connect();
+  try {
+    const items = await client.query('SELECT * FROM animals');
+    res.json(items.rows);
+  } catch {
+    res.status(404).send();
+  } finally {
+    client.release();
+  }
+});
+
+app.delete('/animals', async (req: Request, res: Response): Promise<void> => {
+  const client = await pool.connect();
+  try {
+    const items = await client.query('DELETE FROM animals');
+    res.status(204).send();
+  } catch {
+    res.status(404).send();
+  } finally {
+    client.release();
+  }
+});
+
+app.post('/animals', async (req: Request, res: Response): Promise<void> => {
   const client = await pool.connect();
   const {name, type} = req.body;
   try {
@@ -30,25 +54,26 @@ app.post('/animal', async (req: Request, res: Response): Promise<void> => {
   } finally {
     client.release();
   }
-})
+});
 
-app.delete('/animal/:id', async (req: Request, res: Response): Promise<void> => {
+app.patch('/animals/:id', async (req: Request, res: Response): Promise<void> => {
   const client = await pool.connect();
+  const {name, type} = req.body;
   try {
-    await client.query('DELETE FROM animals WHERE id=$1', [req.params.id]);
+    await client.query('UPDATE animals SET name=$1, type=$2 WHERE id=$3', [name, type, req.params.id]);
     res.status(204).send();
   } catch {
     res.status(404).send();
   } finally {
     client.release();
   }
-})
+});
 
-app.get('/animals', async (req: Request, res: Response): Promise<void> => {
+app.delete('/animals/:id', async (req: Request, res: Response): Promise<void> => {
   const client = await pool.connect();
   try {
-    const items = await client.query('SELECT * FROM animals');
-    res.json(items.rows);
+    await client.query('DELETE FROM animals WHERE id=$1', [req.params.id]);
+    res.status(204).send();
   } catch {
     res.status(404).send();
   } finally {

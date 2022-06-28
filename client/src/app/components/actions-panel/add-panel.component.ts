@@ -6,11 +6,9 @@ import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import * as animalsActions from '../../store/actions/animals.action';
-import * as animalActions from '../../store/actions/animal.action';
-import { AnimalService } from '../../services/animal.service';
 import { AnimalsService } from '../../services/animals.service';
 import { IAnimal } from '../../interfaces/animal.interface';
-import { animalSelector } from '../../store/selectors/animal.selector';
+import { animalSelectorById } from '../../store/selectors/animals.selector';
 
 
 @Component({
@@ -28,7 +26,6 @@ export class AddPanelComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
-    private animalService: AnimalService,
     private animalsService: AnimalsService,
     private store: Store,
     private actions$: Actions
@@ -36,11 +33,11 @@ export class AddPanelComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.actions$.pipe(
-      ofType(animalsActions.getAnimals, animalActions.createAnimal),
+      ofType(animalsActions.getAnimals, animalsActions.createAnimal),
       takeUntil(this.destroy$)
     ).subscribe(() => this.isLoading = true);
     this.actions$.pipe(
-      ofType(animalsActions.getAnimalsSuccess, animalActions.createAnimalSuccess),
+      ofType(animalsActions.getAnimalsSuccess, animalsActions.createAnimalSuccess),
       debounceTime(1000),
       takeUntil(this.destroy$)
     ).subscribe(() => this.isLoading = false);
@@ -60,7 +57,7 @@ export class AddPanelComponent implements OnInit, OnDestroy {
 
   public addObject(): void {
     const {name, type} = this.addForm.controls;
-    this.store.dispatch(animalActions.createAnimal({
+    this.store.dispatch(animalsActions.createAnimal({
       payload: {
         name: name.value as string,
         type: type.value as string
@@ -70,7 +67,7 @@ export class AddPanelComponent implements OnInit, OnDestroy {
 
   private checkNameExistence(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<{nameExists: boolean} | null> => {
-      return this.store.select<IAnimal[]>(animalSelector, {name: control.value})
+      return this.store.select<IAnimal[]>(animalSelectorById, {name: control.value})
         .pipe(
           take(1),
           map(animal => animal ? {nameExists: true} : null)

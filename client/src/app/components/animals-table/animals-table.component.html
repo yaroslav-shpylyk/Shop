@@ -1,16 +1,25 @@
 <table>
   <tr>
-    <th>{{columnNames.name}}</th>
+    <th class="name-header">{{columnNames.name}}</th>
     <th>{{columnNames.type}}</th>
     <th class="actions-header">{{columnNames.actions}}</th>
   </tr>
   <tr *ngFor="let animal of animals$ | async">
-    <td>{{animal.name}}</td>
-    <td>{{animal.type}}</td>
+    <ng-container *ngIf="animal.id !== editItemId; else editTemplate">
+      <td>{{animal.name}}</td>
+      <td>{{animal.type}}</td>
+    </ng-container>
     <td class="actions-cell">
-      <i class="fa-solid fa-pencil edit-icon"></i>
-      <i class="fa-solid fa-check save-icon"></i>
+      <div *ngIf="editItemId && animal.id !== editItemId" class="block-actions"></div>
+      <i *ngIf="animal.id !== editItemId"  class="fa-solid fa-pencil edit-icon" (click)="editItem(animal)"></i>
+      <i *ngIf="animal.id === editItemId" class="fa-solid fa-check save-icon" (click)="saveItem(animal.id)"></i>
+      <i *ngIf="animal.id === editItemId" class="fa-solid fa-ban cancel-icon" (click)="cancelItemEdit()"></i>
       <i class="fa-solid fa-xmark delete-icon" (click)="deleteItem(animal.id)"></i>
     </td>
   </tr>
 </table>
+
+<ng-template #editTemplate>
+  <td><input class="edit-input" [(ngModel)]="editItemName"></td>
+  <td><input class="edit-input" [(ngModel)]="editItemType"></td>
+</ng-template>

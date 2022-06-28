@@ -2,6 +2,14 @@ table {
   width: 800px;
   margin-top: 50px;
   border-collapse: collapse;
+
+  .name-header {
+    width: 400px;
+  }
+
+  th, tr, td {
+    height: 30px;
+  }
 }
 
 table, th, td {
@@ -12,13 +20,30 @@ th, td {
   padding: 5px;
 }
 
+.edit-input {
+  width: 97%;
+  height: 25px;
+  font-size: 18px;
+}
+
 .actions {
   &-header {
     width: 70px;
   }
 
   &-cell {
-    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+    border: 0;
+
+    .block-actions {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.73);
+    }
 
     .delete-icon {
       font-size: 23px;
@@ -35,9 +60,14 @@ th, td {
 
     .save-icon {
       font-size: 20px;
-      padding-top: 2px;
       color: #24d924;
       cursor: pointer;
+    }
+
+    .cancel-icon {
+      font-size: 17px;
+      cursor: pointer;
+      color: #faaa26;
     }
   }
 }
