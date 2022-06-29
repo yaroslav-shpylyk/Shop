@@ -29,8 +29,12 @@ app.get('/animals', async (req: Request, res: Response): Promise<void> => {
 app.delete('/animals', async (req: Request, res: Response): Promise<void> => {
   const client = await pool.connect();
   try {
-    const items = await client.query('DELETE FROM animals');
-    res.status(204).send();
+    const query = await client.query('DELETE FROM animals');
+    if (query.rowCount > 0) {
+      res.status(204).send();
+    } else {
+      throw new Error('');
+    }
   } catch {
     res.status(404).send();
   } finally {
@@ -60,8 +64,12 @@ app.patch('/animals/:id', async (req: Request, res: Response): Promise<void> => 
   const client = await pool.connect();
   const {name, type} = req.body;
   try {
-    await client.query('UPDATE animals SET name=$1, type=$2 WHERE id=$3', [name, type, req.params.id]);
-    res.status(204).send();
+    const query = await client.query('UPDATE animals SET name=$1, type=$2 WHERE id=$3', [name, type, req.params.id]);
+    if (query.rowCount === 1) {
+      res.status(204).send();
+    } else {
+      throw new Error('');
+    }
   } catch {
     res.status(404).send();
   } finally {
@@ -72,8 +80,12 @@ app.patch('/animals/:id', async (req: Request, res: Response): Promise<void> => 
 app.delete('/animals/:id', async (req: Request, res: Response): Promise<void> => {
   const client = await pool.connect();
   try {
-    await client.query('DELETE FROM animals WHERE id=$1', [req.params.id]);
-    res.status(204).send();
+    const query = await client.query('DELETE FROM animals WHERE id=$1', [req.params.id]);
+    if (query.rowCount === 1) {
+      res.status(204).send();
+    } else {
+      throw new Error('');
+    }
   } catch {
     res.status(404).send();
   } finally {
