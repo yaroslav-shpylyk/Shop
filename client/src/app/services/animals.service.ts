@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import {IAnimal, IAnimalPayload} from '../interfaces/animal.interface';
+import { IAnimal, IAnimalPayload } from '../interfaces/animal.interface';
 
 @Injectable()
 export class AnimalsService {
@@ -25,5 +25,9 @@ export class AnimalsService {
 
   public deleteAnimal(id: number): Observable<void> {
     return this.httpClient.delete<void>(`${this.url}/animals/${id}`);
+  }
+
+  public deleteAllAnimals(): Observable<void> {
+    return this.httpClient.delete<void>(`${this.url}/animals`);
   }
 }

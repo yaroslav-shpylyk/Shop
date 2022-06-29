@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { switchMap, map } from 'rxjs';
+import { switchMap, map, catchError, of } from 'rxjs';
 
 import { AnimalsService } from '../../services/animals.service';
 import * as animalsActions from '../actions/animals.action';
@@ -19,7 +19,8 @@ export class AnimalsEffect {
     ofType(animalsActions.getAnimals),
     switchMap(() => this.animalsService.getAnimals()
       .pipe(
-        map(animals => animalsActions.getAnimalsSuccess({payload: animals}))
+        map(animals => animalsActions.getAnimalsSuccess({payload: animals})),
+        catchError(() => of(animalsActions.getAnimalsFail()))
       ))
   ))
 
@@ -44,6 +45,14 @@ export class AnimalsEffect {
     switchMap((props: IProps<number>) => this.animalsService.deleteAnimal(props.payload)
       .pipe(
         map(() => animalsActions.deleteAnimalSuccess(props))
+      ))
+  ))
+
+  deleteAllAnimals$ = createEffect(() => this.actions$.pipe(
+    ofType(animalsActions.deleteAllAnimals),
+    switchMap(() => this.animalsService.deleteAllAnimals()
+      .pipe(
+        map(() => animalsActions.deleteAllAnimalsSuccess())
       ))
   ))
 }

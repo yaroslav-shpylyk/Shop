@@ -46,12 +46,11 @@ export class AnimalsTableComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  public deleteItem(id: number): void {
+  public deleteItem(id: number | null): void {
     if (this.editItemId !== null) {
       this.cancelItemEdit();
     }
-
-    this.store.dispatch(animalsActions.deleteAnimal({payload: id}));
+    this.store.dispatch(id !== null ? animalsActions.deleteAnimal({payload: id}) : animalsActions.deleteAllAnimals());
   }
 
   public editItem(item: IAnimal): void {

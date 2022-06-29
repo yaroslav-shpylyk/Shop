@@ -17,6 +17,10 @@
       <i class="fa-solid fa-xmark delete-icon" (click)="deleteItem(animal.id)"></i>
     </td>
   </tr>
+  <tr *ngIf="(animals$ | async)?.length">
+    <td colspan="2"></td>
+    <td class="actions-cell"><i class="fa-solid fa-xmark delete-icon" (click)="deleteItem(null)"></i></td>
+  </tr>
 </table>
 
 <ng-template #editTemplate>

@@ -37,10 +37,13 @@ export class AddPanelComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     ).subscribe(() => this.isLoading = true);
     this.actions$.pipe(
-      ofType(animalsActions.getAnimalsSuccess, animalsActions.createAnimalSuccess),
+      ofType(animalsActions.getAnimalsSuccess, animalsActions.createAnimalSuccess, animalsActions.getAnimalsFail),
       debounceTime(1000),
       takeUntil(this.destroy$)
-    ).subscribe(() => this.isLoading = false);
+    ).subscribe(() => {
+      this.isLoading = false;
+      this.clearAll();
+    });
   }
 
   ngOnDestroy(): void {

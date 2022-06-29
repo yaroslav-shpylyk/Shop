@@ -7,6 +7,7 @@ import { IProps } from '../../interfaces/props.interface';
 export const animalsReducer = createReducer(
   [] as IAnimal[],
   on(animalsActions.getAnimalsSuccess, (state, {payload}: IProps<IAnimal[]>) => [...payload]),
+  on(animalsActions.getAnimalsFail, () => []),
   on(animalsActions.createAnimalSuccess, (state, {payload}: IProps<IAnimal>) => {
     const newState = [...state];
 
@@ -33,5 +34,6 @@ export const animalsReducer = createReducer(
     newState.splice(deletedItemIndex, 1);
 
     return newState;
-  })
+  }),
+  on(animalsActions.deleteAllAnimalsSuccess, () => [])
 );
