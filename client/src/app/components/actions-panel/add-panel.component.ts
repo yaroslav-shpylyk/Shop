@@ -55,7 +55,8 @@ export class AddPanelComponent implements OnInit, OnDestroy {
     this.addForm.patchValue({
       name: '',
       type: ''
-    })
+    });
+    this.addForm.reset();
   }
 
   public addObject(): void {
